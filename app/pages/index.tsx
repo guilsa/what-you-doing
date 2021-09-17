@@ -40,6 +40,7 @@ const UserInfo = () => {
             <strong>Sign Up</strong>
           </a>
         </Link>
+        <br />
         <Link href={Routes.LoginPage()}>
           <a className="button small">
             <strong>Login</strong>

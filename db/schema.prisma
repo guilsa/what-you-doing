@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgres"
   url      = env("DATABASE_URL")
 }
 
@@ -23,6 +23,7 @@ model User {
 
   tokens   Token[]
   sessions Session[]
+  book     UserBook[]
 }
 
 model Session {
@@ -63,3 +64,27 @@ model Token {
 // enum TokenType {
 //   RESET_PASSWORD
 // }
+
+model Book {
+  id        Int        @id @default(autoincrement())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  title     String
+  desc      String
+  rating    Int
+  imageUrl  String
+  users     UserBook[]
+}
+
+model UserBook {
+  id        Int      @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+  book      Book     @relation(fields: [bookId], references: [id])
+  userId    Int
+  bookId    Int
+
+  // composite ids
+  @@id([userId, bookId])
+}
